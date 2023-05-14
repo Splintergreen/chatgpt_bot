@@ -19,7 +19,7 @@ class TokenLimitError(Exception):
     pass
 
 
-token_limit = 100
+token_limit = 4096
 
 
 router: Router = Router()
