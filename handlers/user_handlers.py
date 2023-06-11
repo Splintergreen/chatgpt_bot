@@ -57,6 +57,7 @@ async def main_menu_call(call: CallbackQuery, state: FSMContext):
     text = (f'Здравствуйте {call.message.from_user.full_name}\n'
             'Вас приветствует ChatGPT bot')
     await call.message.answer(text, reply_markup=start_keyboard)
+    await call.answer()
     await state.clear()
 
 
@@ -65,6 +66,7 @@ async def start_chat_call(call: CallbackQuery, state: FSMContext):
     text = ('💬 Задайте вопрос — после ответа можно '
             'дать уточняющие правки и скорректировать ответ.')
     await call.message.answer(text, reply_markup=back_button)
+    await call.answer()
     await state.set_state(FSMMessages.message)
 
 
@@ -72,6 +74,7 @@ async def start_chat_call(call: CallbackQuery, state: FSMContext):
 async def about_call(call: CallbackQuery):
     text = ('ChatGPT bot, модель "gpt-3.5-turbo"')
     await call.message.answer(text, reply_markup=back_button)
+    await call.answer()
 
 
 @router.message(StateFilter(FSMMessages.message))
@@ -95,7 +98,7 @@ async def bot_dialog(message: Message, state: FSMContext):
                 raise TokenLimitError
     except TokenLimitError:
         text = (
-            'Использовано максимум токенов!\n'
+            'Использовано максимум токенов в контексте!\n'
             'Контекст будет очищен!'
              )
         messages.clear()
@@ -115,6 +118,7 @@ async def another_question_call(call: CallbackQuery, state: FSMContext):
     await state.clear()
     text = 'Задайте новый вопрос 💬'
     await call.message.answer(text, reply_markup=back_button)
+    await call.answer()
     await state.set_state(FSMMessages.message)
 
 
@@ -122,4 +126,5 @@ async def another_question_call(call: CallbackQuery, state: FSMContext):
 async def new_answer_call(call: CallbackQuery, state: FSMContext):
     message_state = await state.get_data()
     message = message_state['message']
+    await call.answer()
     await bot_dialog(message, state)
