@@ -72,7 +72,12 @@ async def start_chat_call(call: CallbackQuery, state: FSMContext):
 
 @router.callback_query(Text(text='about'), StateFilter(default_state))
 async def about_call(call: CallbackQuery):
-    text = ('ChatGPT bot, модель "gpt-3.5-turbo"')
+    text = (
+        'ChatGPT bot, модель "gpt-3.5-turbo".\n\n'
+        'Вы можете изменить "Температуру" выдачи ответов, добавив в конце запроса - '
+        '"Use a temperature of (значение от 0.1 до 78.0)"\n\n'
+        'Чем больше значение тем более творческий будет ответ, чем меньше значение тем научнее будет ответ.\n'
+        'По умолчанию установлено значение 0.5.')
     await call.message.answer(text, reply_markup=back_button)
     await call.answer()
 
