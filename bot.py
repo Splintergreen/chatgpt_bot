@@ -1,6 +1,7 @@
 import os
 import asyncio
-import openai
+# import openai
+# from openai import OpenAI
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.redis import Redis, RedisStorage
 from dotenv import load_dotenv
@@ -12,8 +13,8 @@ load_dotenv()
 redis: Redis = Redis(host='localhost')
 storage: RedisStorage = RedisStorage(redis=redis)
 
-OPENAI_KEY: str = os.getenv('OPENAI_KEY')
-openai.api_key: str = OPENAI_KEY
+# OPENAI_KEY: str = os.getenv('OPENAI_KEY')
+# openai.api_key: str = OPENAI_KEY
 
 
 secret_token = os.getenv('TOKEN')

@@ -1,4 +1,6 @@
-import openai
+# import openai
+from aiogram.enums import ParseMode
+from openai import OpenAI
 import os
 from aiogram import Router
 from aiogram.filters import CommandStart, StateFilter, Text, BaseFilter
@@ -12,7 +14,15 @@ from keyboards import (another_question, back_button, bottom_menu,
 from utils import num_tokens_from_messages
 from dotenv import load_dotenv
 
+
 load_dotenv()
+
+OPENAI_KEY: str = os.getenv('OPENAI_KEY')
+
+client = OpenAI(
+    api_key="sk-3u43NzV3Cs2ArA1SnS8KtWl0Xj1tgHvD",
+    base_url="https://api.proxyapi.ru/openai/v1",
+)
 
 
 class TokenLimitError(Exception):
@@ -92,13 +102,22 @@ async def bot_dialog(message: Message, state: FSMContext):
         if token_in_message >= token_limit:
             raise TokenLimitError
         else:
-            response = openai.ChatCompletion.create(
+            response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=messages,
                 temperature=0.5,
                 max_tokens=token_limit-num_tokens_from_messages(messages)
             )
-            total_token = response['usage']['total_tokens']
+            # response = openai.ChatCompletion.create(
+            #     model="gpt-3.5-turbo",
+            #     messages=messages,
+            #     temperature=0.5,
+            #     max_tokens=token_limit-num_tokens_from_messages(messages)
+            # )
+            print(response.choices[0].message.content)
+            # response.choices[0].message.content
+            # total_token = response['usage']['total_tokens']
+            total_token = response.usage.total_tokens
             if total_token >= token_limit:
                 raise TokenLimitError
     except TokenLimitError:
@@ -107,12 +126,17 @@ async def bot_dialog(message: Message, state: FSMContext):
             'Контекст будет очищен!'
              )
         messages.clear()
-        await message.answer(text, reply_markup=another_question)
+        await message.answer(
+            text,
+            reply_markup=another_question,
+            parse_mode=ParseMode.MARKDOWN_V2
+            )
     except Exception as ex:
         text = f'Ошибка - {ex}'
         await message.answer(text, reply_markup=back_button)
     else:
-        text = response['choices'][0]['message']['content']
+        # text = response['choices'][0]['message']['content']
+        text = response.choices[0].message.content
         await message.answer(text, reply_markup=bottom_menu)
         await state.update_data(message=message)
 
