@@ -66,4 +66,12 @@ def get_balance():
     return responce.json().get('balance')
 
 
-# print(get_balance())
+def get_text(model):
+    image_generate_model = (
+        model.startswith('dall-e-') or model.startswith('kandinsky')
+        )
+    text = ('💬 Задайте вопрос — после ответа можно '
+            'дать уточняющие правки и скорректировать ответ.')
+    if image_generate_model:
+        text = '💬 Напишите промт для генерации изображения'
+    return text

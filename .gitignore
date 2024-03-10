@@ -2,3 +2,9 @@
 /.vscode
 /venv
 __pycache__
+/logs
+test.py
+temp_image.png
+temp.py
+temp_dalle_image.jpg
+temp_kald_image.jpg

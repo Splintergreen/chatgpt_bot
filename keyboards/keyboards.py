@@ -21,7 +21,7 @@ bottom_menu: InlineKeyboardMarkup = InlineKeyboardMarkup(
     inline_keyboard=[
         [
             InlineKeyboardButton(
-                text='Задать другой вопрос', callback_data='another_question'
+                text='Новый запрос', callback_data='another_question'
                 )
         ],
         [
@@ -59,7 +59,7 @@ another_question: InlineKeyboardMarkup = InlineKeyboardMarkup(
     inline_keyboard=[
         [
             InlineKeyboardButton(
-                text='Задать другой вопрос', callback_data='another_question'
+                text='Новый запрос', callback_data='another_question'
                 )
         ],
     ]
@@ -70,8 +70,12 @@ def choose_model():
     models = [
         'gpt-4-turbo-preview',
         'gpt-3.5-turbo',
-        # 'dall-e-3',
-        # 'dall-e-2',
+        'dall-e-3',
+        'dall-e-2',
+        'kandinsky-KANDINSKY',
+        'kandinsky-UHD',
+        'kandinsky-ANIME',
+        'kandinsky-DEFAULT',
         ]
     buttons = [
         InlineKeyboardButton(text=model, callback_data='selectedmodel_'+model)
@@ -79,5 +83,4 @@ def choose_model():
         ]
     kb_builder: InlineKeyboardBuilder = InlineKeyboardBuilder()
     kb_builder.row(*buttons, width=2)
-    # print(kb_builder.as_markup())
     return kb_builder.as_markup()
