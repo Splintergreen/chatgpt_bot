@@ -1,14 +1,17 @@
 import os
 from aiogram import Router
 from aiogram.filters import CommandStart, StateFilter, Text, BaseFilter
-from aiogram.filters.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
 from aiogram.types import CallbackQuery, Message
 from database import messages
-from keyboards import back_button, start_keyboard, choose_model
+from keyboards import back_button, choose_model
 from utils import (get_balance, get_text, process_message,
-                   handle_general_error, handle_token_limit_error)
+                   handle_general_error, handle_token_limit_error,
+                   setup_logger, handle_model_selection, FSMMessages)
+
+
+logger = setup_logger('user_hadlers')
 
 
 class TokenLimitError(Exception):
@@ -16,11 +19,6 @@ class TokenLimitError(Exception):
 
 
 router: Router = Router()
-
-
-class FSMMessages(StatesGroup):
-    message = State()
-    model = State()
 
 
 admin_id: int = int(os.getenv('admin_ids'))
@@ -40,38 +38,12 @@ router.callback_query.filter(IsAdmin(admin_id))
 
 @router.message(CommandStart(), StateFilter(default_state))
 async def start_command(message: Message, state: FSMContext):
-    message_state = await state.get_data()
-    model = message_state.get('model')
-    if model is None:
-        text = ('Выберите модель "gpt" для работы с текстом, '
-                '"dall-e" или "kandinsky" для генерации изображений.')
-        await state.set_state(FSMMessages.model)
-        await message.answer(text, reply_markup=choose_model())
-    else:
-        await state.clear()
-        text = (f'Здравствуйте {message.from_user.full_name}\n'
-                'Вас приветствует ChatGPT bot')
-        await message.answer(text, reply_markup=start_keyboard)
-        await state.update_data(model=model)
+    await handle_model_selection(message, state)
 
 
 @router.callback_query(Text(text='main_menu'))
 async def main_menu_call(call: CallbackQuery, state: FSMContext):
-    message_state = await state.get_data()
-    model = message_state.get('model')
-    if model is None:
-        text = ('Выберите модель "gpt" для работы с текстом, '
-                '"dall-e" или "kandinsky" для генерации изображений.')
-        await state.set_state(FSMMessages.model)
-        await call.message.answer(text, reply_markup=choose_model())
-        await call.answer()
-    else:
-        text = (f'Здравствуйте {call.message.from_user.full_name}\n'
-                'Вас приветствует ChatGPT bot')
-        await call.message.answer(text, reply_markup=start_keyboard)
-        await call.answer()
-        await state.clear()
-        await state.update_data(model=model)
+    await handle_model_selection(call, state, is_callback=True)
 
 
 @router.callback_query(Text(text='model_select'))
@@ -131,6 +103,7 @@ async def bot_dialog(message: Message, state: FSMContext):
         await handle_token_limit_error(message)
     except Exception as err:
         await handle_general_error(message, err)
+        logger.error(f'Ошибка выполнения функции bot_dialog - {err}')
 
 
 @router.callback_query(Text(text='another_question'))
