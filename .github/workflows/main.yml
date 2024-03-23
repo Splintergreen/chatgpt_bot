@@ -51,15 +51,7 @@ jobs:
             docker rm gpt_bot || true
             docker image rm ssuhotskiy/gpt_bot:latest
             docker pull ssuhotskiy/gpt_bot:latest
-            touch .env
-            echo TOKEN=${{ secrets.TOKEN }} >> .env
-            echo OPENAI_KEY=${{ secrets.OPENAI_KEY }} >> .env
-            echo admin_ids=${{ secrets.admin_ids }} >> .env
-            echo AUTH_TOKEN=${{ secrets.AUTH_TOKEN }} >> .env
-            echo KANDINSKY_API=${{ secrets.KANDINSKY_API }} >> .env
-            echo KANDINSKY_SECRET_KEY=${{ secrets.KANDINSKY_SECRET_KEY }} >> .env
-            echo DEBUG=False >> .env
-            docker run --name gpt_bot ssuhotskiy/gpt_bot:latest 
+            docker run --name gpt_bot --e TOKEN=${{ secrets.TOKEN }} OPENAI_KEY=${{ secrets.OPENAI_KEY }} admin_ids=${{ secrets.admin_ids }} AUTH_TOKEN=${{ secrets.AUTH_TOKEN }} KANDINSKY_API=${{ secrets.KANDINSKY_API }} KANDINSKY_SECRET_KEY=${{ secrets.KANDINSKY_SECRET_KEY }} ssuhotskiy/gpt_bot:latest
             
   send_message:
     runs-on: ubuntu-latest
