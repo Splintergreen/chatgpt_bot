@@ -46,6 +46,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
+          command_timeout: 200m
           script: |
             docker stop gpt_bot || true
             docker rm gpt_bot || true
