@@ -60,6 +60,7 @@ jobs:
             -e KANDINSKY_API=${{ secrets.KANDINSKY_API }} \
             -e KANDINSKY_SECRET_KEY=${{ secrets.KANDINSKY_SECRET_KEY }} \
             ssuhotskiy/gpt_bot:latest
+            echo Bot started..
             
   send_message:
     runs-on: ubuntu-latest
