@@ -12,7 +12,7 @@ from openai import OpenAI
 from database import messages
 from keyboards import (another_question, back_button, bottom_menu,
                        choose_model, start_keyboard)
-from utils import num_tokens_from_messages
+from .utils import num_tokens_from_messages
 from utils.kandinsky import Text2ImageAPI
 
 from .logger_config import setup_logger
