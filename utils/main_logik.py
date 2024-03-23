@@ -1,19 +1,21 @@
-import os
-from dotenv import load_dotenv
-from database import messages
-from aiogram.enums import ParseMode
-from openai import OpenAI
-from aiogram.types import FSInputFile
-from keyboards import (another_question, back_button,
-                       bottom_menu, start_keyboard, choose_model)
-from utils import num_tokens_from_messages
-from .logger_config import setup_logger
-from utils.kandinsky import Text2ImageAPI
-import aiohttp
 import base64
-from aiogram.fsm.context import FSMContext
-from aiogram.filters.state import State, StatesGroup
+import os
 
+import aiohttp
+from aiogram.enums import ParseMode
+from aiogram.filters.state import State, StatesGroup
+from aiogram.fsm.context import FSMContext
+from aiogram.types import FSInputFile
+from dotenv import load_dotenv
+from openai import OpenAI
+
+from database import messages
+from keyboards import (another_question, back_button, bottom_menu,
+                       choose_model, start_keyboard)
+from utils import num_tokens_from_messages
+from utils.kandinsky import Text2ImageAPI
+
+from .logger_config import setup_logger
 
 load_dotenv()
 

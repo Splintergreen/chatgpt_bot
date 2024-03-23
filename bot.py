@@ -1,9 +1,11 @@
-import os
 import asyncio
+import os
+
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.redis import Redis, RedisStorage
 from dotenv import load_dotenv
-from handlers import user_handlers, other_handlers
+
+from handlers import other_handlers, user_handlers
 from utils import setup_logger
 
 load_dotenv()

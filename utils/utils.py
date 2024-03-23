@@ -1,6 +1,7 @@
-import tiktoken
-import requests
 import os
+
+import requests
+import tiktoken
 from dotenv import load_dotenv
 
 load_dotenv()

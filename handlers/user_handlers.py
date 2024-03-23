@@ -1,15 +1,16 @@
 import os
+
 from aiogram import Router
-from aiogram.filters import CommandStart, StateFilter, Text, BaseFilter
+from aiogram.filters import BaseFilter, CommandStart, StateFilter, Text
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import default_state
 from aiogram.types import CallbackQuery, Message
+
 from database import messages
 from keyboards import back_button, choose_model
-from utils import (get_balance, get_text, process_message,
-                   handle_general_error, handle_token_limit_error,
-                   setup_logger, handle_model_selection, FSMMessages)
-
+from utils import (FSMMessages, get_balance, get_text, handle_general_error,
+                   handle_model_selection, handle_token_limit_error,
+                   process_message, setup_logger)
 
 logger = setup_logger('user_hadlers')
 

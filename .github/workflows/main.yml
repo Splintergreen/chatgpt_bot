@@ -76,6 +76,6 @@ jobs:
     - name: send message
       uses: appleboy/telegram-action@master
       with:
-        to: ${{ secrets.TELEGRAM_TO }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}
+        to: ${{ secrets.admin_ids }}
+        token: ${{ secrets.TOKEN }}
         message: ${{ github.workflow }} успешно выполнен!
