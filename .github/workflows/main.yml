@@ -55,7 +55,7 @@ jobs:
             docker pull ssuhotskiy/gpt_bot:latest
             docker stop gpt_bot || true
             docker rm gpt_bot || true
-            yes|docker image prune
+            docker image rm ssuhotskiy/gpt_bot:latest
             docker run --name gpt_bot ssuhotskiy/gpt_bot:latest 
             
   send_message:
