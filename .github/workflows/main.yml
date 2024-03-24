@@ -71,5 +71,4 @@ jobs:
       with:
         to: ${{ secrets.admin_ids }}
         token: ${{ secrets.TOKEN }}
-        message: Deploy ${{ github.workflow }} successful! $'\n'
-                /start to run bot!
+        message: "Deploy ${{ github.workflow }} successful!\n/start to run bot!"
