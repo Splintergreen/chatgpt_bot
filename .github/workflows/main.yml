@@ -46,7 +46,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
-          command_timeout: 200m
+          command_timeout: 10m
           script: |
             docker stop gpt_bot || true
             docker rm gpt_bot || true
@@ -71,4 +71,5 @@ jobs:
       with:
         to: ${{ secrets.admin_ids }}
         token: ${{ secrets.TOKEN }}
-        message: Deploy ${{ github.workflow }} successful! /start to run bot!
+        message: Deploy ${{ github.workflow }} successful! \n
+                /start to run bot!
