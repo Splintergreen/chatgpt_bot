@@ -60,7 +60,7 @@ jobs:
             echo KANDINSKY_API=${{ secrets.KANDINSKY_API }} >> .env
             echo KANDINSKY_SECRET_KEY=${{ secrets.KANDINSKY_SECRET_KEY }} >> .env
             echo DEBUG=False >> .env
-            docker run --name gpt_bot --env-file ./.env ssuhotskiy/gpt_bot:latest 
+            docker run -a --name gpt_bot --env-file ./.env ssuhotskiy/gpt_bot:latest 
             echo Bot started..
             
   send_message:
