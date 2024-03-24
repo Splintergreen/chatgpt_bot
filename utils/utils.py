@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-AUTH_TOKEN: str = os.getenv('AUTH_TOKEN')
+OPENAI_KEY: str = os.getenv('OPENAI_KEY')
 
 
 def num_tokens_from_messages(messages, model="gpt-3.5-turbo"):
@@ -42,29 +42,14 @@ def num_tokens_from_messages(messages, model="gpt-3.5-turbo"):
 
 def get_balance():
     headers = {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "ru,en;q=0.9",
-        "Authorization": f"Bearer {AUTH_TOKEN}",
-        "Connection": "keep-alive",
-        "Host": "local.proxyapi.ru",
-        "Origin": "https://console.proxyapi.ru",
-        "Referer": "https://console.proxyapi.ru",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-        "(KHTML, like Gecko) Chrome/120.0.0.0"
-        " YaBrowser/24.1.0.0 Safari/537.36",
-        "sec-ch-ua": "\"Not_A Brand\";v=\"8\", \"Chromium\";v=\"120\", "
-        "\"YaBrowser\";v=\"24.1\", \"Yowser\";v=\"2.5\"",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\"Linux\""
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {OPENAI_KEY}',
     }
-    responce = requests.get(
-        url='https://local.proxyapi.ru/auth/me', headers=headers
+    response = requests.get(
+        url='https://api.proxyapi.ru/proxyapi/balance',
+        headers=headers
         )
-    return responce.json().get('balance')
+    return response.json().get('balance')
 
 
 def get_text(model):
