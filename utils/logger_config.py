@@ -10,7 +10,7 @@ if not os.path.exists(log_directory):
     os.makedirs(log_directory)
 
 log_format = logging.Formatter(
-    '%(asctime)s - %(name)s - %(levelname)s - %(message)s - %(filename)s:%(lineno)d'
+    '%(asctime)s - %(name)s - %(filename)s - %(lineno)d - %(levelname)s - %(message)s'
     )
 
 
