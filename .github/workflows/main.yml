@@ -52,7 +52,7 @@ jobs:
             docker rm gpt_bot || true
             docker image rm ssuhotskiy/gpt_bot:latest
             docker pull ssuhotskiy/gpt_bot:latest
-            docker run -d --name gpt_bot \
+            docker run --restart always -d --name gpt_bot \
             -e TOKEN=${{ secrets.TOKEN }} \
             -e OPENAI_KEY=${{ secrets.OPENAI_KEY }} \
             -e admin_ids=${{ secrets.admin_ids }} \
